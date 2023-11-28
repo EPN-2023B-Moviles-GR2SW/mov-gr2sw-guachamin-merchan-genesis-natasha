@@ -60,7 +60,9 @@ fun main() {
     calcularSueldo(bonoEspecial = 10.00, sueldo = 10.00)
 
 
-
+    val sumaUno = Suma(10,20)
+    val sumaDos = Suma(null,45)
+    val sumaTres = Suma(1, null)
 
 }
 
@@ -84,7 +86,7 @@ abstract class NumerosJava{
 //PARA KOTLIN
 
 abstract class Numeros( //CONSTRUCTOR PRIMARIO
-    protected val numeroUno: Int,
+    protected val numeroUno: Int, //Propiedades
     protected val numeroDos: Int
 ){
     init{ //CONSTRUCTOR SECUNDARIO
@@ -92,6 +94,32 @@ abstract class Numeros( //CONSTRUCTOR PRIMARIO
         numeroUno; numeroDos //Se puede sin el this
         println("Inicializando")
     }
+}
+
+class Suma( //Constructor primario Suma
+    unoParametro: Int, //Parámetro
+    dosParametro: Int
+): Numeros(unoParametro, dosParametro) {
+    init { //Bloque codigo constructor primario
+        numeroUno
+        numeroDos
+    }
+
+    constructor(//Constructor Secundario
+        uno: Int?,
+        dos: Int
+    ) : this(
+        if (uno == null) 0 else uno,
+        dos
+    )
+
+    constructor(
+        uno: Int,
+        dos: Int?
+    ) : this(
+        uno,
+        if (dos == null) 0 else dos
+    )
 }
 
 

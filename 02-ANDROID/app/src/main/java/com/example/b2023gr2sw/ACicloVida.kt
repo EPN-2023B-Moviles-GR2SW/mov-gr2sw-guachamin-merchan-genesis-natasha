@@ -1,10 +1,11 @@
-package com.example.b2023gr2sw
 
+
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-
-
+import android.os.PersistableBundle
+import android.widget.Button
+import com.example.b2023gr2sw.R
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -13,14 +14,14 @@ class ACicloVida : AppCompatActivity() {
 
     fun mostrarSnackbar(texto:String){
         textoGlobal += texto
-        // val snack = Snackbar.make(findViewById(R.id.cl_ciclo_vida),
-            //textoGlobal, Snackbar.LENGTH_INDEFINITE)
-        //snack.show()
+        val snack = Snackbar.make(findViewById(R.id.cl_ciclo_vida),
+            textoGlobal, Snackbar.LENGTH_INDEFINITE)
+        snack.show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_aciclo_vida)
+        setContentView(R.layout.activity_aciclo_vida)
         mostrarSnackbar("Hola")
         mostrarSnackbar("OnCrete")
     }

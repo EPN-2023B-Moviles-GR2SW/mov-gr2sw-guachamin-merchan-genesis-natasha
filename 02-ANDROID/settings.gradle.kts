@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "b2023gr2sw"
 include(":app")
+ 

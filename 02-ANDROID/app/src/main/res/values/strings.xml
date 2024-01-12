@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">B2023gr2sw</string>
     <string name="saludo">Hola GENESIS</string>
     <color name="bg_principal">#523691</color>
     <string name="font_family">sans-serif-smallcaps</string>
+    <string-array name="string_array_opciones_dialogo">
+        <item>Lunes</item>
+        <item>Martes</item>
+        <item>Miercoles</item>
+    </string-array>
 </resources>

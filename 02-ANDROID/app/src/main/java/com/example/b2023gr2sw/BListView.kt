@@ -1,6 +1,5 @@
 package com.example.b2023gr2sw
 
-import android.app.Dialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -122,5 +121,7 @@ class BListView : AppCompatActivity() {
             texto, Snackbar.LENGTH_LONG)
         snack.show()
     }
+
+
 
 }

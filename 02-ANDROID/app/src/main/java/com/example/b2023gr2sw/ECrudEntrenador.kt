@@ -8,6 +8,7 @@ import android.widget.EditText
 class ECrudEntrenador : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Establecer el diseño de la interfaz
         setContentView(R.layout.activity_ecrud_entrenador)
 
         val botonBuscarBDD = findViewById<Button>(R.id.btn_buscar_bdd)

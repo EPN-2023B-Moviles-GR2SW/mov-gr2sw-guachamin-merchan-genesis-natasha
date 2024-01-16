@@ -1,119 +1,143 @@
 package com.example.b2023gr2sw
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
+import Artista
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.widget.Button
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import android.content.DialogInterface
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
-
-    val callbackContenidoIntentExplicito =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-                result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                if (result.data != null) {
-                    val data = result.data
-                    mostrarSnackbar(
-                        "${data?.getStringExtra("nombreModificado")}"
-                    )
-                }
-            }
-        }
-
-    fun mostrarSnackbar(texto: String) {
-        Snackbar
-            .make(
-                findViewById(R.id.id_layout_main),
-                texto,
-                Snackbar.LENGTH_LONG
-            )
-            .show()
+    val arreglo = BaseDatosMemoria.arregloArtistas
+    var posicionItemSeleccionado = -1
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        val info = menuInfo as AdapterView.AdapterContextMenuInfo
+        val posicion = info.position
+        posicionItemSeleccionado = posicion
     }
 
 
-    val callbackIntentPickUri =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ){
-                result ->
-            if(result.resultCode === RESULT_OK){
-                if(result.data != null){
-                    if(result.data!!.data != null){
-                        val uri: Uri = result.data!!.data!!
-                        val cursor = contentResolver.query(
-                            uri, null, null, null,  null, null)
-                        cursor?.moveToFirst()
-                        val indiceTelefono = cursor?.getColumnIndex(
-                            ContactsContract.CommonDataKinds.Phone.NUMBER
-                        )
-                        val telefono = cursor?.getString(indiceTelefono!!)
-                        cursor?.close()
-                        mostrarSnackbar("Telefono ${telefono}")
-                    }
-                }
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.mi_editar -> {
+                mostrarSnackbar("${posicionItemSeleccionado}")
+                return true
             }
+
+            R.id.mi_eliminar -> {
+                val listView = findViewById<ListView>(R.id.lv_list_view)
+                val adaptador = listView.adapter as ArrayAdapter<Artista>
+                mostrarSnackbar("${posicionItemSeleccionado}")
+                abrirDialogo(adaptador)
+                return true
+            }
+
+            R.id.mi_ver -> {
+                mostrarSnackbar("${posicionItemSeleccionado}")
+                return true
+            }
+
+            else -> super.onContextItemSelected(item)
         }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_blist_view)
 
-        EBaseDeDatos.tablaEntrenador = ESqliteHelperEntrenador(this)
+        val listView = findViewById<ListView>(R.id.lv_list_view)
+        val adaptador = ArrayAdapter(
+            this, // Contexto
+            android.R.layout.simple_list_item_1, // como se va a ver (XML)
+            arreglo
+        )
+        listView.adapter = adaptador
+        adaptador.notifyDataSetChanged()
 
-        val botonCicloVida = findViewById<Button>(R.id.btn_ciclo_vida)
-        botonCicloVida.setOnClickListener {
-            irActividad(ACicloVida::class.java)
-        }
-
-        val botonListView = findViewById<Button>(R.id.btn_ir_list_view)
-        botonListView.setOnClickListener {
-            irActividad(BListView::class.java)
-        }
-
-        val botonItentImplicito = findViewById<Button>(R.id.btn_ir_intent_implicito)
-        botonItentImplicito.setOnClickListener {
-            val intentConRespuesta = Intent(
-                Intent.ACTION_PICK,
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-            )
-            callbackIntentPickUri.launch(intentConRespuesta)
-        }
-
-        val botonIntentExplicito = findViewById<Button>(
-            R.id.btn_ir_intent_explicito)
-        botonIntentExplicito
+        val botonAnadirListView = findViewById<Button>(
+            R.id.btn_anadir_list_view
+        )
+        botonAnadirListView
             .setOnClickListener {
-                abrirActividadConParametros(
-                    CIntentExplicitoParametros::class.java)
+                anadirArtista(adaptador)
             }
+        registerForContextMenu(listView)
     }
 
-    fun abrirActividadConParametros(
-        clase: Class<*>
-    ){
-        val intentExplicito = Intent(this, clase)
-        // Enviar parametros (solamente variables primitivas)
-        intentExplicito.putExtra("nombre", "Adrian")
-        intentExplicito.putExtra("apellido", "Eguez")
-        intentExplicito.putExtra("edad", 34)
-
-        callbackContenidoIntentExplicito.launch(intentExplicito)
+    fun abrirDialogo(adaptador: ArrayAdapter<Artista>) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Desea eliminar")
+        builder.setPositiveButton(
+            "Aceptar",
+            DialogInterface.OnClickListener { dialog, which ->
+                if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < arreglo.size) {
+                    arreglo.removeAt(posicionItemSeleccionado)
+                    adaptador.notifyDataSetChanged()
+                    mostrarSnackbar("Eliminar aceptado")
+                }
+            }
+        )
+        builder.setNegativeButton(
+            "Cancelar",
+            null
+        )
+        val opciones = resources.getStringArray(
+            R.array.string_array_opciones_dialogo
+        )
+        val seleccionPrevia = booleanArrayOf(
+            true, // Lunes seleccionado
+            false, // Martes NO seleccionado
+            false // Miercoles NO seleccionado
+        )
+        builder.setMultiChoiceItems(
+            opciones,
+            seleccionPrevia,
+            { dialog,
+              which,
+              isChecked ->
+                mostrarSnackbar("Dio clic en el item ${which}")
+            }
+        )
+        val dialogo = builder.create()
+        dialogo.show()
     }
 
 
-    fun irActividad(clase: Class<*>) {
-        val intent = Intent(this, clase)
-        startActivity(intent)
+    fun anadirArtista(adaptador: ArrayAdapter<Artista>) {
+        val arregloAleatorioArtistas = arrayOf("Iron Maiden", "Fito", "Sam Smith", "Paulina Rubio",
+            "Ricardo Arjona",
+            "Laura Pausini",
+            "Fito Páez",
+            "Soda Stereo","Rata Blanca")
+
+        arreglo.add(
+            Artista(4, arregloAleatorioArtistas.random(), "18 de noviembre de 1917", 39, false, 1.75, ArrayList())
+        )
+        adaptador.notifyDataSetChanged()
+    }
+
+
+    fun mostrarSnackbar(texto: String) {
+        val snack = Snackbar.make(
+            findViewById(R.id.lv_list_view),
+            texto, Snackbar.LENGTH_LONG
+        )
+        snack.show()
     }
 }
-
-

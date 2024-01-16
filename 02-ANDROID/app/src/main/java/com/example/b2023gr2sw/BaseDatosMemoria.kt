@@ -1,17 +1,20 @@
 package com.example.b2023gr2sw
 
-class BBaseDatosMemoria {
-    companion object{
-        val arregloBEntrenador = arrayListOf<BEntrenador>()
+import Artista
+
+class BaseDatosMemoria {
+    companion object {
+        val arregloArtistas = arrayListOf<Artista>()
+
         init {
-            arregloBEntrenador.add(
-                BEntrenador(1, "Génesis", "abcd")
+            arregloArtistas.add(
+                Artista(1, "Pedro Infante", "18 de noviembre de 1917", 39, false, 1.75, ArrayList())
             )
-            arregloBEntrenador.add(
-                BEntrenador(2, "Natasha", "abcd")
+            arregloArtistas.add(
+                Artista(2, "Amy Winehouse", "18 de noviembre de 1917", 39, false, 1.75, ArrayList())
             )
-            arregloBEntrenador.add(
-                BEntrenador(3, "Naty", "abcd")
+            arregloArtistas.add(
+                Artista(3, "Alexandre Pires", "18 de noviembre de 1917", 39, false, 1.75, ArrayList())
             )
         }
     }

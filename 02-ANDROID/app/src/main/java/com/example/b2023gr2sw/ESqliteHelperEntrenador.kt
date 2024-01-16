@@ -13,7 +13,7 @@ class ESqliteHelperEntrenador (
         "moviles", //nombre del archivo
         null,
         1
-    ){
+    ) {
     override fun onCreate(db: SQLiteDatabase?) {
         val scriptSQLCrearTablaEntrenador =
             """
@@ -49,7 +49,7 @@ class ESqliteHelperEntrenador (
     }
 
 
-    fun eliminarEntrenadorFormulario(id:Int):Boolean{
+    fun eliminarEntrenadorFormulario(id: Int): Boolean {
         val conexionEscritura = writableDatabase
         val parametrosConsultaDelete = arrayOf(id.toString())
         val resultadoEliminacion = conexionEscritura
@@ -66,12 +66,12 @@ class ESqliteHelperEntrenador (
         nombre: String,
         descripcion: String,
         id: Int
-    ):Boolean{
+    ): Boolean {
         val conexionEscritura = writableDatabase
         val valoresAActualizar = ContentValues()
         valoresAActualizar.put("nombre", nombre)
         valoresAActualizar.put("description", descripcion)
-        val  parametrosAActualizar = arrayOf(id.toString())
+        val parametrosAActualizar = arrayOf(id.toString())
         val resultadoActualizacion = conexionEscritura
             .update(
                 "ENTRENADOR",
@@ -80,29 +80,29 @@ class ESqliteHelperEntrenador (
                 parametrosAActualizar
             )
         conexionEscritura.close()
-        return if(resultadoActualizacion.toInt() == -1) false else true
+        return if (resultadoActualizacion.toInt() == -1) false else true
 
     }
 
-    fun consultarEntrenadorPorId(id: Int): BEntrenador{
+    fun consultarEntrenadorPorID(id: Int): BEntrenador {
         val baseDatosLectura = readableDatabase
         val scriptConsultaLectura = """
             SELECT * FROM ENTRENADOR WHERE ID = ?
             """.trimIndent()
         val parametrosConsultaLectura = arrayOf(id.toString())
         val resultadoConsultaLectura = baseDatosLectura.rawQuery(
-        scriptConsultaLectura,
-        parametrosConsultaLectura,
+            scriptConsultaLectura,
+            parametrosConsultaLectura,
         )
         val existeUsuario = resultadoConsultaLectura.moveToFirst()
-        val usuarioEncontrado = BEntrenador(0,"","")
+        val usuarioEncontrado = BEntrenador(0, "", "")
         val arreglo = arrayListOf<BEntrenador>()
-        if(existeUsuario){
+        if (existeUsuario) {
             do {
                 val id = resultadoConsultaLectura.getInt(0)
                 val nombre = resultadoConsultaLectura.getString(1)
                 val descripcion = resultadoConsultaLectura.getString(2)
-                if(id != null){
+                if (id != null) {
                     usuarioEncontrado.id = id
                     usuarioEncontrado.nombre = nombre
                     usuarioEncontrado.descripcion = descripcion

@@ -13,10 +13,10 @@
         android:text="Ciclo Vida"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.543"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.469" />
+        app:layout_constraintVertical_bias="0.538" />
 
     <TextView
         android:id="@+id/textView"
@@ -25,53 +25,59 @@
         android:text="@string/saludo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <Button
         android:id="@+id/btn_ir_list_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="20dp"
         android:text="L. VIEW"
         app:layout_constraintBottom_toTopOf="@+id/btn_ciclo_vida"
         app:layout_constraintEnd_toEndOf="@+id/btn_ciclo_vida"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/btn_ciclo_vida" />
+        app:layout_constraintStart_toStartOf="@+id/btn_ciclo_vida"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.908" />
 
     <Button
         android:id="@+id/btn_ir_intent_explicito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:text="I. EXPLICITO"
         app:layout_constraintBottom_toTopOf="@+id/btn_ir_intent_implicito"
         app:layout_constraintEnd_toEndOf="@+id/btn_ir_intent_implicito"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="@+id/btn_ir_intent_implicito"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.837" />
+        app:layout_constraintVertical_bias="0.861" />
 
     <Button
         android:id="@+id/btn_ir_intent_implicito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:text="I. IMPLICITO"
         app:layout_constraintBottom_toTopOf="@+id/btn_ir_list_view"
         app:layout_constraintEnd_toEndOf="@+id/btn_ir_list_view"
-        app:layout_constraintHorizontal_bias="0.928"
-        app:layout_constraintStart_toStartOf="@+id/btn_ir_list_view" />
+        app:layout_constraintStart_toStartOf="@+id/btn_ir_list_view"
+        app:layout_constraintTop_toBottomOf="@+id/btn_ir_intent_explicito" />
 
     <Button
         android:id="@+id/btn_sqlite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="52dp"
         android:text="SQLite"
         app:layout_constraintEnd_toEndOf="@+id/btn_ciclo_vida"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/btn_ciclo_vida"
         app:layout_constraintTop_toBottomOf="@+id/btn_ciclo_vida" />
 
@@ -79,10 +85,10 @@
         android:id="@+id/btn_revcycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="44dp"
         android:text="RView"
         app:layout_constraintEnd_toEndOf="@+id/btn_sqlite"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/btn_sqlite"
         app:layout_constraintTop_toBottomOf="@+id/btn_sqlite" />
 </androidx.constraintlayout.widget.ConstraintLayout>

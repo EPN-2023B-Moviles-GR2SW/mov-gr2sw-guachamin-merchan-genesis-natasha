@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 
 
-class MainActivity : AppCompatActivity() {
+class ListaAlbumes : AppCompatActivity() {
     val arreglo = BaseDatosMemoria.arregloArtistas
     var posicionItemSeleccionado = -1
     override fun onCreateContextMenu(
@@ -45,11 +45,6 @@ class MainActivity : AppCompatActivity() {
                 val adaptador = listView.adapter as ArrayAdapter<Artista>
                 mostrarSnackbar("${posicionItemSeleccionado}")
                 abrirDialogo(adaptador)
-                return true
-            }
-
-            R.id.mi_ver -> {
-                irActividad(ListaAlbumes::class.java)
                 return true
             }
 

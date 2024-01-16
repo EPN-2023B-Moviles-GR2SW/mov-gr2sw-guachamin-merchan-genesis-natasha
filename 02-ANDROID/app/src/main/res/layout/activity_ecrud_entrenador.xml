@@ -5,7 +5,7 @@
     android:id="@+id/cl_sqlite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ECrudEntrenador">
+    tools:context=".CrudArtista">
 
     <EditText
         android:id="@+id/input_id"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:ems="10"
-        android:hint="Ingrese el id"
+        android:hint="Id"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/input_nombre"
         app:layout_constraintEnd_toEndOf="@+id/input_nombre"
@@ -26,64 +26,57 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:ems="10"
-        android:hint="Ingrese el nombre"
+        android:hint="Nombre"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/input_descripcion"
-        app:layout_constraintEnd_toEndOf="@+id/input_descripcion"
+        app:layout_constraintBottom_toTopOf="@+id/input_fechaNacimiento"
+        app:layout_constraintEnd_toEndOf="@+id/input_fechaNacimiento"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/input_descripcion" />
+        app:layout_constraintStart_toStartOf="@+id/input_fechaNacimiento" />
 
     <EditText
-        android:id="@+id/input_descripcion"
+        android:id="@+id/input_fechaNacimiento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:ems="10"
-        android:hint="Ingrese la descripción"
+        android:hint="Fecha de nacimiento"
         android:inputType="text"
-        tools:layout_editor_absoluteX="100dp"
-        tools:layout_editor_absoluteY="251dp" />
+        app:layout_constraintBottom_toTopOf="@+id/input_edad"
+        app:layout_constraintEnd_toEndOf="@+id/input_edad"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/input_edad" />
 
     <Button
-        android:id="@+id/btn_crear_bdd"
+        android:id="@+id/btn_crear_artista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CREAR"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btn_actualizar_bdd"
-        app:layout_constraintHorizontal_bias="0.547"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.588" />
+        app:layout_constraintVertical_bias="0.658" />
 
-    <Button
-        android:id="@+id/btn_buscar_bdd"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="166dp">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/input_edad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:text="BUSCAR"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_crear_bdd"
-        app:layout_constraintEnd_toStartOf="@+id/btn_crear_bdd"
-        app:layout_constraintTop_toTopOf="@+id/btn_crear_bdd"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btn_actualizar_bdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ACTUALIZAR"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_crear_bdd"
-        app:layout_constraintTop_toTopOf="@+id/btn_crear_bdd"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="274dp" />
-
-    <Button
-        android:id="@+id/btn_eliminar_bdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
-        android:text="ELIMINAR"
-        app:layout_constraintEnd_toEndOf="@+id/input_descripcion"
-        app:layout_constraintStart_toStartOf="@+id/input_descripcion"
-        app:layout_constraintTop_toBottomOf="@+id/input_descripcion" />
+        android:layout_marginBottom="60dp"
+        android:ems="10"
+        android:hint="Edad"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/btn_crear_artista"
+        app:layout_constraintEnd_toEndOf="@+id/btn_crear_artista"
+        app:layout_constraintStart_toStartOf="@+id/btn_crear_artista" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

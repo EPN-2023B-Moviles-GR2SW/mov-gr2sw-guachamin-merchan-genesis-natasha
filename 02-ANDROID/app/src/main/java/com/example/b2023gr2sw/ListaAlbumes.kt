@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 
 
 class ListaAlbumes : AppCompatActivity() {
-    val arreglo = BaseDatosMemoria.arregloArtistas
+    val arreglo = BaseDatosMemoria.arreglo
     var posicionItemSeleccionado = -1
     override fun onCreateContextMenu(
         menu: ContextMenu?,

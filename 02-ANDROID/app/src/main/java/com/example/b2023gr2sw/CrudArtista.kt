@@ -22,7 +22,7 @@ class CrudArtista : AppCompatActivity() {
                 val nombre = findViewById<EditText>(R.id.input_nombre)
                 val fechaNacimiento = findViewById<EditText>(R.id.input_fechaNacimiento)
                 val edad = findViewById<EditText>(R.id.input_edad)
-                BaseDatosMemoria.arregloArtistas.add(
+                BaseDatosMemoria.arreglo.add(
                     Artista(
                         idArtista.text.toString().toInt(),
                         nombre.text.toString(),

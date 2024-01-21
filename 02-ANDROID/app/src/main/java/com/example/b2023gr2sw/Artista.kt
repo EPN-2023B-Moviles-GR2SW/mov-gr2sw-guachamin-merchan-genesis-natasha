@@ -12,6 +12,7 @@ class Artista(
     val nombreArtista: String
     val fechaNacimiento: String
     val edad: Int
+    val albumes: ArrayList<Album>
 
 
     init {
@@ -19,9 +20,14 @@ class Artista(
         this.nombreArtista = nombreArtista
         this.fechaNacimiento = fechaNacimiento
         this.edad = edad
+        this.albumes = albumes
     }
 
     override fun toString(): String {
         return "$nombreArtista"
+    }
+
+    fun obtenerTodosLosAlbums(): ArrayList<Album> {
+        return albumes
     }
 }

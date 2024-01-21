@@ -1,5 +1,6 @@
 package com.example.b2023gr2sw
 
+import Album
 import Artista
 import android.os.Bundle
 import android.widget.Button
@@ -17,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 
 
 class ListaAlbumes : AppCompatActivity() {
-    val arreglo = BaseDatosMemoria.arreglo
+
     var posicionItemSeleccionado = -1
     override fun onCreateContextMenu(
         menu: ContextMenu?,
@@ -34,6 +35,8 @@ class ListaAlbumes : AppCompatActivity() {
 
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
+        val indice = intent.getIntExtra("posicionItemSeleccionado",0)
+        val arreglo = BaseDatosMemoria.obtenerAlbums(indice)
         return when (item.itemId) {
             R.id.mi_editar -> {
                 mostrarSnackbar("${posicionItemSeleccionado}")
@@ -44,7 +47,7 @@ class ListaAlbumes : AppCompatActivity() {
                 val listView = findViewById<ListView>(R.id.lv_list_view)
                 val adaptador = listView.adapter as ArrayAdapter<Artista>
                 mostrarSnackbar("${posicionItemSeleccionado}")
-                abrirDialogo(adaptador)
+                abrirDialogo(adaptador, arreglo)
                 return true
             }
 
@@ -55,9 +58,11 @@ class ListaAlbumes : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_blist_view)
+        setContentView(R.layout.list_view_albumes)
+        val indice = intent.getIntExtra("posicionItemSeleccionado",0)
+        val arreglo = BaseDatosMemoria.obtenerAlbums(indice)
 
-        val listView = findViewById<ListView>(R.id.lv_list_view)
+        val listView = findViewById<ListView>(R.id.lv_albumes)
         val adaptador = ArrayAdapter(
             this, // Contexto
             android.R.layout.simple_list_item_1, // como se va a ver (XML)
@@ -67,7 +72,7 @@ class ListaAlbumes : AppCompatActivity() {
         adaptador.notifyDataSetChanged()
 
         val botonAnadirListView = findViewById<Button>(
-            R.id.btn_anadir_list_view
+            R.id.btn_crear_album
         )
         botonAnadirListView
             .setOnClickListener {
@@ -83,7 +88,7 @@ class ListaAlbumes : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun abrirDialogo(adaptador: ArrayAdapter<Artista>) {
+    fun abrirDialogo(adaptador: ArrayAdapter<Artista>, arreglo: ArrayList<Album>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea eliminar")
         builder.setPositiveButton(
@@ -120,21 +125,6 @@ class ListaAlbumes : AppCompatActivity() {
         val dialogo = builder.create()
         dialogo.show()
     }
-
-
-    fun anadirArtista(adaptador: ArrayAdapter<Artista>) {
-        val arregloAleatorioArtistas = arrayOf("Iron Maiden", "Fito", "Sam Smith", "Paulina Rubio",
-            "Ricardo Arjona",
-            "Laura Pausini",
-            "Fito Páez",
-            "Soda Stereo","Rata Blanca")
-
-        arreglo.add(
-            Artista(4, arregloAleatorioArtistas.random(), "18 de noviembre de 1917", 39,  ArrayList())
-        )
-        adaptador.notifyDataSetChanged()
-    }
-
 
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(

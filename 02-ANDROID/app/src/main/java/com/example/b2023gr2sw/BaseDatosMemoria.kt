@@ -22,15 +22,15 @@ class BaseDatosMemoria {
                             precio = 29.90
                         ),
                         Album(
-                            idAlbum = 1,
-                            nombreAlbum = "Só Você",
+                            idAlbum = 2,
+                            nombreAlbum = "Amame",
                             numeroCanciones = 12,
                             precio = 29.90
                         ),
 
                         Album(
-                            idAlbum = 1,
-                            nombreAlbum = "Só Você",
+                            idAlbum = 2,
+                            nombreAlbum = "Cuando termina el placer",
                             numeroCanciones = 12,
                             precio = 29.90
                         )

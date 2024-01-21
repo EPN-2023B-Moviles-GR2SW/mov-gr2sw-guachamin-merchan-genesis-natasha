@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.mi_ver -> {
-                irActividad(ListaAlbumes::class.java)
+                irActividadConParametros(ListaAlbumes::class.java)
                 return true
             }
 
@@ -147,5 +147,11 @@ class MainActivity : AppCompatActivity() {
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()
+    }
+
+    fun irActividadConParametros(clase: Class<*>) {
+        val intentExplicito = Intent(this, clase)
+        intentExplicito.putExtra("posicionItemSeleccionado", posicionItemSeleccionado)
+        startActivity(intentExplicito)
     }
 }

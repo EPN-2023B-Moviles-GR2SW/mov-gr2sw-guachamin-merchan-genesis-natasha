@@ -100,6 +100,16 @@ class BaseDatosMemoria {
         fun obtenerAlbums(indice: Int): ArrayList<Album> {
             return arreglo.get(indice).obtenerTodosLosAlbums()
         }
+
+        fun crearAlbum(album: Album, indice: Int) {
+            arreglo.get(indice).agregarAlbum(album)
+        }
+
+        fun eliminarAlbum(posicionItemSeleccionado: Int, indice: Int) {
+            arreglo.get(indice).eliminarAlbum(posicionItemSeleccionado)
+        }
+
+
     }
 
 

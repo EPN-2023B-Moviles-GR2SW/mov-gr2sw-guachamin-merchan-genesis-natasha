@@ -30,4 +30,12 @@ class Artista(
     fun obtenerTodosLosAlbums(): ArrayList<Album> {
         return albumes
     }
+
+    fun agregarAlbum(album: Album) {
+        albumes.add(album)
+    }
+
+    fun eliminarAlbum(posicionItemSeleccionado: Int) {
+        albumes.removeAt(posicionItemSeleccionado)
+    }
 }

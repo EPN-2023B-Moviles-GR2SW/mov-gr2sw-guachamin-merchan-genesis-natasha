@@ -5,7 +5,7 @@
     android:id="@+id/cl_sqlite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CrudArtista">
+    tools:context=".CrudAlbum">
 
     <EditText
         android:id="@+id/input_id"

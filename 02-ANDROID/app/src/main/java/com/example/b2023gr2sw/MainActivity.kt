@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         botonAnadirListView
             .setOnClickListener {
                 //anadirArtista(adaptador)}
-                irActividad(CrudArtista::class.java)
+                irActividad(CrudAlbum::class.java)
 
             }
         registerForContextMenu(listView)

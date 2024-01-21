@@ -2,24 +2,24 @@ package com.example.b2023gr2sw
 
 import Album
 import Artista
-import android.os.Bundle
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-
 
 class ListaAlbumes : AppCompatActivity() {
 
     var posicionItemSeleccionado = -1
+
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -33,10 +33,11 @@ class ListaAlbumes : AppCompatActivity() {
         posicionItemSeleccionado = posicion
     }
 
-
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val indice = intent.getIntExtra("posicionItemSeleccionado",0)
-        val arreglo = BaseDatosMemoria.obtenerAlbums(indice)
+        // Use the correct ID for the ListView in your layout
+        val listView = findViewById<ListView>(R.id.lv_albumes)
+        val adaptador = listView.adapter as ArrayAdapter<Artista>
+
         return when (item.itemId) {
             R.id.mi_editar -> {
                 mostrarSnackbar("${posicionItemSeleccionado}")
@@ -44,10 +45,8 @@ class ListaAlbumes : AppCompatActivity() {
             }
 
             R.id.mi_eliminar -> {
-                val listView = findViewById<ListView>(R.id.lv_list_view)
-                val adaptador = listView.adapter as ArrayAdapter<Artista>
                 mostrarSnackbar("${posicionItemSeleccionado}")
-                abrirDialogo(adaptador, arreglo)
+                abrirDialogo(adaptador)
                 return true
             }
 
@@ -55,31 +54,28 @@ class ListaAlbumes : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_view_albumes)
-        val indice = intent.getIntExtra("posicionItemSeleccionado",0)
+
+        val indice = intent.getIntExtra("posicionItemSeleccionado", 0)
         val arreglo = BaseDatosMemoria.obtenerAlbums(indice)
 
         val listView = findViewById<ListView>(R.id.lv_albumes)
         val adaptador = ArrayAdapter(
-            this, // Contexto
-            android.R.layout.simple_list_item_1, // como se va a ver (XML)
+            this,
+            android.R.layout.simple_list_item_1,
             arreglo
         )
         listView.adapter = adaptador
         adaptador.notifyDataSetChanged()
 
-        val botonAnadirListView = findViewById<Button>(
-            R.id.btn_crear_album
-        )
-        botonAnadirListView
-            .setOnClickListener {
-                //anadirArtista(adaptador)}
-                irActividad(CrudArtista::class.java)
+        val botonAnadirListView = findViewById<Button>(R.id.btn_crear_album)
+        botonAnadirListView.setOnClickListener {
+            irActividadConParametros(CrudAlbum::class.java)
+        }
 
-            }
+        // Use the correct ID for the ListView in your layout
         registerForContextMenu(listView)
     }
 
@@ -88,14 +84,21 @@ class ListaAlbumes : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun abrirDialogo(adaptador: ArrayAdapter<Artista>, arreglo: ArrayList<Album>) {
+    fun irActividadConParametros(clase: Class<*>) {
+        val indice = intent.getIntExtra("posicionItemSeleccionado", 0)
+        val intentExplicito = Intent(this, clase)
+        intentExplicito.putExtra("posicionItemSeleccionado", indice)
+        startActivity(intentExplicito)
+    }
+
+    fun abrirDialogo(adaptador: ArrayAdapter<Artista>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea eliminar")
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener { dialog, which ->
-                if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < arreglo.size) {
-                    arreglo.removeAt(posicionItemSeleccionado)
+                if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < adaptador.count) {
+                    adaptador.remove(adaptador.getItem(posicionItemSeleccionado))
                     adaptador.notifyDataSetChanged()
                     mostrarSnackbar("Eliminar aceptado")
                 }
@@ -105,30 +108,14 @@ class ListaAlbumes : AppCompatActivity() {
             "Cancelar",
             null
         )
-        val opciones = resources.getStringArray(
-            R.array.string_array_opciones_dialogo
-        )
-        val seleccionPrevia = booleanArrayOf(
-            true, // Lunes seleccionado
-            false, // Martes NO seleccionado
-            false // Miercoles NO seleccionado
-        )
-        builder.setMultiChoiceItems(
-            opciones,
-            seleccionPrevia,
-            { dialog,
-              which,
-              isChecked ->
-                mostrarSnackbar("Dio clic en el item ${which}")
-            }
-        )
+
         val dialogo = builder.create()
         dialogo.show()
     }
 
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(
-            findViewById(R.id.lv_list_view),
+            findViewById(R.id.lv_albumes),
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()

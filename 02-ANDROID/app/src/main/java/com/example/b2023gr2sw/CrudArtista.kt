@@ -31,7 +31,7 @@ class CrudArtista : AppCompatActivity() {
                         ArrayList()
                     )
                 )
-                irActividad(ListaAlbumes::class.java)
+                irActividad(MainActivity::class.java)
 
             }
 

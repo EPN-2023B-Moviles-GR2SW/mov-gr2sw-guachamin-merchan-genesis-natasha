@@ -17,8 +17,8 @@ class CrudAlbum : AppCompatActivity() {
         // Logica Buscar Entrenador
 
 
-        val botonCrearArtista = findViewById<Button>(R.id.btn_crear_new_album)
-        botonCrearArtista
+        val botonCrearAlbum = findViewById<Button>(R.id.btn_crear_new_album)
+        botonCrearAlbum
             .setOnClickListener {
                 val idAlbum = findViewById<EditText>(R.id.id_album)
                 val nombreAlbum = findViewById<EditText>(R.id.id_nombre_album)

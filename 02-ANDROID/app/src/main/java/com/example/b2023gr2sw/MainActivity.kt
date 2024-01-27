@@ -132,7 +132,6 @@ class MainActivity : AppCompatActivity() {
         callbackContenidoIntentExplicito.launch(intentExplicito)
     }
 
-
     fun irActividad(clase: Class<*>) {
         val intent = Intent(this, clase)
         startActivity(intent)

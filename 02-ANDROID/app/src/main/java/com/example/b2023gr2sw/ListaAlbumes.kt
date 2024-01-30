@@ -1,7 +1,7 @@
 package com.example.b2023gr2sw
 
 import Album
-import Artista
+import AlbumDAO
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +18,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class ListaAlbumes : AppCompatActivity() {
 
-    var posicionItemSeleccionado = -1
+    private lateinit var albumDAO: AlbumDAO
+    private var posicionItemSeleccionado = -1
 
     override fun onCreateContextMenu(
         menu: ContextMenu?,
@@ -34,9 +35,8 @@ class ListaAlbumes : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        // Use the correct ID for the ListView in your layout
         val listView = findViewById<ListView>(R.id.lv_albumes)
-        val adaptador = listView.adapter as ArrayAdapter<Artista>
+        val adaptador = listView.adapter as ArrayAdapter<Album>
 
         return when (item.itemId) {
             R.id.mi_editar -> {
@@ -59,7 +59,8 @@ class ListaAlbumes : AppCompatActivity() {
         setContentView(R.layout.list_view_albumes)
 
         val indice = intent.getIntExtra("posicionItemSeleccionado", 0)
-        val arreglo = BaseDatosMemoria.obtenerAlbums(indice)
+        albumDAO = AlbumDAO(this)
+        val arreglo = albumDAO.obtenerAlbumes()
 
         val listView = findViewById<ListView>(R.id.lv_albumes)
         val adaptador = ArrayAdapter(
@@ -75,7 +76,6 @@ class ListaAlbumes : AppCompatActivity() {
             irActividadConParametros(CrudAlbum::class.java)
         }
 
-        // Use the correct ID for the ListView in your layout
         registerForContextMenu(listView)
     }
 
@@ -85,22 +85,25 @@ class ListaAlbumes : AppCompatActivity() {
     }
 
     fun irActividadConParametros(clase: Class<*>) {
-        val indice = intent.getIntExtra("posicionItemSeleccionado", 0)
         val intentExplicito = Intent(this, clase)
-        intentExplicito.putExtra("posicionItemSeleccionado", indice)
+        intentExplicito.putExtra("posicionItemSeleccionado", posicionItemSeleccionado)
         startActivity(intentExplicito)
     }
 
-    fun abrirDialogo(adaptador: ArrayAdapter<Artista>) {
+    fun abrirDialogo(adaptador: ArrayAdapter<Album>) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea eliminar")
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener { dialog, which ->
                 if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < adaptador.count) {
-                    adaptador.remove(adaptador.getItem(posicionItemSeleccionado))
-                    adaptador.notifyDataSetChanged()
-                    mostrarSnackbar("Eliminar aceptado")
+                    val album = adaptador.getItem(posicionItemSeleccionado)
+                    album?.let {
+                        albumDAO.eliminarAlbum(it.idAlbum)
+                        adaptador.remove(it)
+                        adaptador.notifyDataSetChanged()
+                        mostrarSnackbar("Eliminar aceptado")
+                    }
                 }
             }
         )

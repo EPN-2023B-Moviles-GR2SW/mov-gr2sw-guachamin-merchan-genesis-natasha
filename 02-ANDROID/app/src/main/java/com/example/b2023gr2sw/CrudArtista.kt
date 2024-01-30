@@ -1,6 +1,7 @@
 package com.example.b2023gr2sw
 
 import Artista
+import ArtistaDAO
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,20 +23,18 @@ class CrudArtista : AppCompatActivity() {
                 val nombre = findViewById<EditText>(R.id.input_nombre)
                 val fechaNacimiento = findViewById<EditText>(R.id.input_fechaNacimiento)
                 val edad = findViewById<EditText>(R.id.input_edad)
-                BaseDatosMemoria.arreglo.add(
+                val artistaDAO = ArtistaDAO(this)
+                    artistaDAO.insertarArtista(
                     Artista(
                         idArtista.text.toString().toInt(),
                         nombre.text.toString(),
                         fechaNacimiento.text.toString(),
                         edad.text.toString().toInt(),
-                        ArrayList()
                     )
                 )
                 irActividad(MainActivity::class.java)
 
             }
-
-
     }
 
     fun irActividad(clase: Class<*>) {
@@ -43,13 +42,4 @@ class CrudArtista : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun mostrarSnackbar(texto: String) {
-        Snackbar
-            .make(
-                findViewById(R.id.cl_sqlite), // view
-                texto, // texto
-                Snackbar.LENGTH_LONG // tiempo
-            )
-            .show()
-    }
 }

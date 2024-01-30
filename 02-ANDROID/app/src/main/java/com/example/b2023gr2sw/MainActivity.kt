@@ -1,24 +1,49 @@
 package com.example.b2023gr2sw
 
 import Artista
-import android.os.Bundle
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import ArtistaDAO
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
-
 class MainActivity : AppCompatActivity() {
-    val arreglo = BaseDatosMemoria.arreglo
-    var posicionItemSeleccionado = -1
+    private lateinit var artistaDAO: ArtistaDAO
+    private lateinit var adaptador: ArrayAdapter<Artista>
+    private var posicionItemSeleccionado = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_blist_view)
+
+        // Inicializa el ArtistaDAO
+        artistaDAO = ArtistaDAO(this)
+
+        val listView = findViewById<ListView>(R.id.lv_list_view)
+        adaptador = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            artistaDAO.obtenerArtistas()
+        )
+        listView.adapter = adaptador
+        adaptador.notifyDataSetChanged()
+
+        val botonAnadirListView = findViewById<Button>(R.id.btn_anadir_list_view)
+        botonAnadirListView.setOnClickListener {
+            irActividad(CrudArtista::class.java)
+        }
+        registerForContextMenu(listView)
+    }
+
     override fun onCreateContextMenu(
         menu: ContextMenu?,
         v: View?,
@@ -32,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         posicionItemSeleccionado = posicion
     }
 
-
     override fun onContextItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mi_editar -> {
@@ -41,10 +65,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.mi_eliminar -> {
-                val listView = findViewById<ListView>(R.id.lv_list_view)
-                val adaptador = listView.adapter as ArrayAdapter<Artista>
                 mostrarSnackbar("${posicionItemSeleccionado}")
-                abrirDialogo(adaptador)
+                abrirDialogo()
                 return true
             }
 
@@ -57,89 +79,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_blist_view)
-
-        val listView = findViewById<ListView>(R.id.lv_list_view)
-        val adaptador = ArrayAdapter(
-            this, // Contexto
-            android.R.layout.simple_list_item_1, // como se va a ver (XML)
-            arreglo
-        )
-        listView.adapter = adaptador
-        adaptador.notifyDataSetChanged()
-
-        val botonAnadirListView = findViewById<Button>(
-            R.id.btn_anadir_list_view
-        )
-        botonAnadirListView
-            .setOnClickListener {
-                //anadirArtista(adaptador)}
-                irActividad(CrudArtista::class.java)
-
-            }
-        registerForContextMenu(listView)
-    }
-
-    fun irActividad(clase: Class<*>) {
-        val intent = Intent(this, clase)
-        startActivity(intent)
-    }
-
-    fun abrirDialogo(adaptador: ArrayAdapter<Artista>) {
+    private fun abrirDialogo() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea eliminar")
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener { dialog, which ->
-                if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < arreglo.size) {
-                    arreglo.removeAt(posicionItemSeleccionado)
-                    adaptador.notifyDataSetChanged()
-                    mostrarSnackbar("Eliminar aceptado")
+                if (posicionItemSeleccionado != -1 && posicionItemSeleccionado < adaptador.count) {
+                    val artista = adaptador.getItem(posicionItemSeleccionado)
+                    artista?.let {
+                        artistaDAO.eliminarArtista(it.idArtista)
+                        adaptador.remove(it)
+                        adaptador.notifyDataSetChanged()
+                        mostrarSnackbar("Eliminar aceptado")
+                    }
                 }
             }
         )
-        builder.setNegativeButton(
-            "Cancelar",
-            null
-        )
-        val opciones = resources.getStringArray(
-            R.array.string_array_opciones_dialogo
-        )
-        val seleccionPrevia = booleanArrayOf(
-            true, // Lunes seleccionado
-            false, // Martes NO seleccionado
-            false // Miercoles NO seleccionado
-        )
+        builder.setNegativeButton("Cancelar", null)
+        val opciones = resources.getStringArray(R.array.string_array_opciones_dialogo)
+        val seleccionPrevia = booleanArrayOf(true, false, false)
         builder.setMultiChoiceItems(
             opciones,
-            seleccionPrevia,
-            { dialog,
-              which,
-              isChecked ->
-                mostrarSnackbar("Dio clic en el item ${which}")
-            }
-        )
+            seleccionPrevia
+        ) { dialog, which, isChecked ->
+            mostrarSnackbar("Dio clic en el item $which")
+        }
         val dialogo = builder.create()
         dialogo.show()
     }
-
-
-    fun anadirArtista(adaptador: ArrayAdapter<Artista>) {
-        val arregloAleatorioArtistas = arrayOf("Iron Maiden", "Fito", "Sam Smith", "Paulina Rubio",
-            "Ricardo Arjona",
-            "Laura Pausini",
-            "Fito Páez",
-            "Soda Stereo","Rata Blanca")
-
-        arreglo.add(
-            Artista(4, arregloAleatorioArtistas.random(), "18 de noviembre de 1917", 39,  ArrayList())
-        )
-        adaptador.notifyDataSetChanged()
-    }
-
 
     fun mostrarSnackbar(texto: String) {
         val snack = Snackbar.make(
@@ -147,6 +115,11 @@ class MainActivity : AppCompatActivity() {
             texto, Snackbar.LENGTH_LONG
         )
         snack.show()
+    }
+
+    fun irActividad(clase: Class<*>) {
+        val intent = Intent(this, clase)
+        startActivity(intent)
     }
 
     fun irActividadConParametros(clase: Class<*>) {

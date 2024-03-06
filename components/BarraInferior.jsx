@@ -4,7 +4,6 @@ import { View, Text, StyleSheet } from "react-native";
 //https://icons.expo.fyi/Index
 import { Foundation } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Octicons from '@expo/vector-icons/Octicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';

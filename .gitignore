@@ -1,5 +1,12 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
+# Ignorar el archivo package.json
+package.json
+
+# Si también deseas ignorar el archivo package-lock.json, agrega la siguiente línea
+package-lock.json
+
+
 # dependencies
 node_modules/
 
@@ -33,3 +40,4 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+

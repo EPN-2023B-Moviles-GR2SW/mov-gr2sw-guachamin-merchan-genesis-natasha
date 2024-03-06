@@ -84,7 +84,7 @@ const ListaAlbumes = () => {
             year: 1971,
             tracks: [
                 { id: 1, title: "Black Dog" },
-                { id: 2, title: "Rock and Roll" },
+                { id: 2, title: "Rock anl" },
                 { id: 3, title: "Stairway to Heaven" },
             ],
         },
@@ -105,7 +105,7 @@ const ListaAlbumes = () => {
             artist: "The Beatles",
             year: 1969,
             tracks: [
-                { id: 1, title: "Come Together" },
+                { id: 1, title: "Coe Together" },
                 { id: 2, title: "Something" },
                 { id: 3, title: "Here Comes the Sun" },
             ],

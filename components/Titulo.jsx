@@ -26,7 +26,7 @@ const Titulo = () => {
     return (<View style={styles.contenedor}>
         <Text style={styles.text}>Música</Text>
         <View style={styles.contenedorIconos}>
-            <Ionicons name="diamond" size={18} color="#067857" />
+            <Ionicons name="diamond" size={19} color="#067857" />
             <Text>     </Text>
             <Fontisto name="music-note" size={20} color="gray" />
         </View>

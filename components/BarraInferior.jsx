@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-//Para importar estas librerías se utiliza el link:
+//Para importar estas librerías se utiliza el link:  
 //https://docs.expo.dev/guides/icons/
 //https://icons.expo.fyi/Index
 import { Foundation } from '@expo/vector-icons';

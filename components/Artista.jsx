@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 styles = StyleSheet.create({
     contenedor1: {
-        paddingTop: 50,
+        paddingTop: 80,
         paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
